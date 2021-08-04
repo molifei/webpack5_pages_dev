@@ -1,14 +1,27 @@
 module.exports = {
-  "presets": [
+  'plugins': [
     [
-      "@babel/preset-env",
+      '@babel/plugin-transform-runtime',
       {
-        "browsers": ["last 50 versions", "> 5%", "Android > 4.3"]
+        'corejs': false,
+        'regenerator': false
       }
-    ],
-    "stage-2"
+    ]
   ],
-  "plugins": [
-    "transform-runtime"
+  'sourceType': 'unambiguous',
+  'presets': [
+    [
+      '@babel/preset-env',
+      {
+        'modules': false,
+        'shippedProposals': true,
+        'useBuiltIns': 'usage',
+        'corejs': {
+          'version': '3.10',
+          'proposals': true
+        },
+        'targets': {}
+      }
+    ]
   ]
-}
+};

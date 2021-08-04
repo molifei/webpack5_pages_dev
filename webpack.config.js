@@ -1,23 +1,23 @@
-const webpack = require("webpack")
-const glob = require("glob")
-const path = require('path')
+const webpack = require('webpack');
+const glob = require('glob');
+const path = require('path');
 
 // html处理
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // css处理
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // 拆分css
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
 // 压缩css
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 // 清除dist文件夹
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const htmlPluginArray = []
+const htmlPluginArray = [];
 
 // html-webpack-plugin插件minify配置
 const minifyConfig = {
@@ -29,16 +29,16 @@ const minifyConfig = {
   minifyCSS: true,
   // 压缩文件内js
   minifyJS: true
-}
+};
 
-function getEntry() {
-  const entry = {}
+const getEntry = () => {
+  const entry = {};
   // src目录下所有的页面获取
   glob.sync('./src/pages/*/index.js')
     .forEach(item => {
-      let name = item.match(/\/pages\/(.+)\/index.js/)
-      name = name[1]
-      entry[name] = item
+      let name = item.match(/\/pages\/(.+)\/index.js/);
+      name = name[1];
+      entry[name] = item;
 
       // 添加htmlWebpackPlugin插件
       if (name === 'index') {
@@ -47,32 +47,32 @@ function getEntry() {
           template: `./src/pages/${name}/index.html`,
           chunks: [name],
           minify: minifyConfig
-        }))
+        }));
       } else {
         htmlPluginArray.push(new HtmlWebpackPlugin({
           filename: `./pages/${name}/index.html`,
           template: `./src/pages/${name}/index.html`,
           chunks: [name],
           minify: minifyConfig
-        }))
+        }));
       }
 
-    })
+    });
 
-  return entry
-}
+  return entry;
+};
 
-console.log(getEntry())
+console.log(getEntry());
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
 
   entry: getEntry(),
 
   output: {
     publicPath: '/',
-    filename: "js/[name]_[chunkhash].js",
-    chunkFilename: "js/[name]_[chunkhash].min.js",
+    filename: 'js/[name]_[chunkhash].js',
+    // chunkFilename: 'js/[name]_[chunkhash].min.js',
     path: path.resolve(__dirname, 'dist'),
   },
 
@@ -81,6 +81,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        use: ['babel-loader', 'eslint-loader']
         // use: [
         //   {
         //     loader: 'babel-loader',
@@ -105,7 +106,7 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader',
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
           },
           'less-loader'
         ]
@@ -119,7 +120,7 @@ module.exports = {
         test: /\.(jpe?g|png|gif)$/i,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 10240,
               fallback: {
@@ -206,18 +207,18 @@ module.exports = {
   },
 
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, '/src/common/'),
-      '+': path.resolve(__dirname, '/src/pages/'),
-    }
+    // alias: {
+    //   '@': path.resolve(__dirname, '/src/common/'),
+    //   '+': path.resolve(__dirname, '/src/pages/'),
+    // }
   },
 
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    publicPath: "/",
+    publicPath: '/',
     port: 2500,
     hot: true,
     hotOnly: true,
     open: true,
   }
-}
+};

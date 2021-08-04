@@ -1,3 +1,3 @@
-import './index.less'
+import './index.less';
 
-console.log('home')
+console.log('home');
