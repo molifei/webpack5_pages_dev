@@ -11,10 +11,25 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // 拆分css
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
 
+// 压缩css
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+
 // 清除dist文件夹
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 
 const htmlPluginArray = []
+
+// html-webpack-plugin插件minify配置
+const minifyConfig = {
+  // 去除空格
+  collapseWhitespace: true,
+  // 去除注释
+  removeComments: true,
+  // 压缩文件内css
+  minifyCSS: true,
+  // 压缩文件内js
+  minifyJS: true
+}
 
 function getEntry() {
   const entry = {}
@@ -30,16 +45,17 @@ function getEntry() {
         htmlPluginArray.push(new HtmlWebpackPlugin({
           filename: `./index.html`,
           template: `./src/pages/${name}/index.html`,
-          chunks: [name]
+          chunks: [name],
+          minify: minifyConfig
         }))
       } else {
         htmlPluginArray.push(new HtmlWebpackPlugin({
-          filename: `./${name}/index.html`,
+          filename: `./pages/${name}/index.html`,
           template: `./src/pages/${name}/index.html`,
-          chunks: [name]
+          chunks: [name],
+          minify: minifyConfig
         }))
       }
-
 
     })
 
@@ -55,8 +71,8 @@ module.exports = {
 
   output: {
     publicPath: '/',
-    filename: "[name]_[chunkhash].js",
-    chunkFilename: "[name]_[chunkhash].min.js",
+    filename: "js/[name]_[chunkhash].js",
+    chunkFilename: "js/[name]_[chunkhash].min.js",
     path: path.resolve(__dirname, 'dist'),
   },
 
@@ -159,11 +175,13 @@ module.exports = {
     ...htmlPluginArray,
 
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-      chunkFilename: '[name].[contenthash].css'
+      filename: 'css/[name].[contenthash].css',
+      chunkFilename: 'css/[name].[contenthash].css'
     }),
 
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin,
+
+    new CssMinimizerPlugin
   ],
 
   optimization: {
@@ -189,15 +207,17 @@ module.exports = {
 
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '/src/common/')
+      '@': path.resolve(__dirname, '/src/common/'),
+      '+': path.resolve(__dirname, '/src/pages/'),
     }
   },
 
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.join(__dirname, 'dist'),
     publicPath: "/",
     port: 2500,
     hot: true,
-    open: true
+    hotOnly: true,
+    open: true,
   }
 }
