@@ -7,7 +7,7 @@ import '../../common/css/base.less';
 console.log('index');
 
 const test = () => {
-  console.log(123);
+  console.log(12345);
 };
 
 test();

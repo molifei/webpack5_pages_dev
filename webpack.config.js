@@ -8,12 +8,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // css处理
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-// 拆分css
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
-
-// 压缩css
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-
 // 清除dist文件夹
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -65,7 +59,6 @@ const getEntry = () => {
 console.log(getEntry());
 
 module.exports = {
-  mode: 'development',
 
   entry: getEntry(),
 
@@ -81,7 +74,10 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'eslint-loader']
+        use: [
+          'babel-loader',
+          'eslint-loader'
+        ]
       },
 
       {
@@ -104,6 +100,15 @@ module.exports = {
         ]
       },
 
+      {
+        // 处理html文件中的img图片（负责引入img，从而能被url-loader进行处理）
+        test: /\.html$/,
+        loader: 'html-loader',
+        options: {
+          esModule: false,
+        }
+      },
+
       // 图片
       {
         test: /\.(jpg|png|gif)$/,
@@ -117,14 +122,6 @@ module.exports = {
             }
           }
         ]
-      },
-      {
-        // 处理html文件中的img图片（负责引入img，从而能被url-loader进行处理）
-        test: /\.html$/,
-        loader: 'html-loader',
-        options: {
-          esModule: false,
-        }
       },
 
       // 媒体文件
@@ -164,16 +161,14 @@ module.exports = {
   plugins: [
     ...htmlPluginArray,
 
+    new CleanWebpackPlugin,
+
+    new webpack.HotModuleReplacementPlugin(),
+
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
       chunkFilename: 'css/[name].[contenthash].css'
     }),
-
-    new CleanWebpackPlugin,
-
-    new CssMinimizerPlugin,
-
-    new webpack.HotModuleReplacementPlugin(),
   ],
 
   optimization: {
@@ -203,14 +198,4 @@ module.exports = {
     //   '+': path.resolve(__dirname, '/src/pages/'),
     // }
   },
-
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    publicPath: '/',
-    port: 2500,
-    hot: true,
-    hotOnly: true,
-    open: true,
-    inline: true,
-  }
 };
