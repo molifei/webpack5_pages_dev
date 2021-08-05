@@ -62,10 +62,10 @@ const getEntry = () => {
   return entry;
 };
 
-console.log(getEntry());
+console.log(getEntry(), process);
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
 
   entry: getEntry(),
 
