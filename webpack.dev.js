@@ -24,6 +24,7 @@ module.exports = merge(base, {
   },
   // 启用source-map方便调试
   devtool: 'source-map',
+
   plugins: [
     // 定义全局变量
     new webpack.DefinePlugin({

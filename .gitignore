@@ -3,6 +3,7 @@ node_modules
 /dist
 /output
 /noUpload
+/.cache
 
 # local env files
 .env.local

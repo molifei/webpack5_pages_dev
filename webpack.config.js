@@ -1,6 +1,12 @@
 const webpack = require('webpack');
 const glob = require('glob');
 const path = require('path');
+const os = require('os');
+const HappyPack = require('happypack');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 // html处理
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -70,13 +76,16 @@ module.exports = {
   },
 
   module: {
+    // noParse: /jquery/,
+
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
           'babel-loader',
-          'eslint-loader'
+          'eslint-loader',
+          'happypack/loader?id=happyBabel'
         ]
       },
 
@@ -131,7 +140,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 10240,
+              limit: 100 * 1024,
               fallback: {
                 loader: 'file-loader',
                 options: {
@@ -169,6 +178,44 @@ module.exports = {
       filename: 'css/[name].[contenthash].css',
       chunkFilename: 'css/[name].[contenthash].css'
     }),
+
+    new HappyPack({
+      id: 'happyBabel',
+      loaders: [{
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env']
+          ],
+          cacheDirectory: true
+        }
+      }],
+      threadPool: happyThreadPool
+    }),
+
+    // new webpack.DllReferencePlugin({
+    //   context: __dirname,
+    //   manifest: require('./vendor-manifest.json')
+    // }),
+    //
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     {
+    //       from: path.resolve(__dirname, './public/vendor'),
+    //       to: path.resolve(__dirname, './dist/vendor'),
+    //     }
+    //   ]
+    // }),
+    //
+    // new AddAssetHtmlPlugin({
+    //   // dll文件位置
+    //   filepath: path.resolve(__dirname, '/vendor/*.js'),
+    //   // dll 引用路径
+    //   publicPath: '/vendor',
+    //   // dll最终输出的目录
+    //   outputPath: '/vendor'
+    // }),
+
   ],
 
   optimization: {
@@ -189,7 +236,25 @@ module.exports = {
           minChunks: 2
         }
       }
-    }
+    },
+    minimizer: [
+      new ParallelUglifyPlugin({
+        cacheDir: '.cache/',
+        uglifyJS: {
+          output: {
+            // 是否保留代码中的注释
+            comments: false,
+            // 是否输出可读性较强的代码，即会保留空格和制表符，默认为输出，为了达到更好的压缩效果，
+            beautify: false
+          },
+          compress: {
+            drop_console: true,
+            collapse_vars: false,
+            reduce_vars: true
+          }
+        }
+      })
+    ]
   },
 
   resolve: {
