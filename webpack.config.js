@@ -156,8 +156,8 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
         loader: 'file-loader',
         options: {
-          // limit: 10000,
-          // 定义打包完成后最终导出的文件路径
+          limit: 1000,
+          // 定义打包后最终导出的文件路径
           outputPath: 'assets/fonts/',
           // 文件的最终名称
           name: '[name].[hash:3].[ext]'
@@ -217,45 +217,6 @@ module.exports = {
     // }),
 
   ],
-
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'initial',
-          priority: 2,
-          minChunks: 2
-        },
-        common: {
-          test: /.js$/,
-          name: 'common',
-          chunks: 'initial',
-          priority: 1,
-          minChunks: 2
-        }
-      }
-    },
-    minimizer: [
-      new ParallelUglifyPlugin({
-        cacheDir: '.cache/',
-        uglifyJS: {
-          output: {
-            // 是否保留代码中的注释
-            comments: false,
-            // 是否输出可读性较强的代码，即会保留空格和制表符，默认为输出，为了达到更好的压缩效果，
-            beautify: false
-          },
-          compress: {
-            drop_console: true,
-            collapse_vars: false,
-            reduce_vars: true
-          }
-        }
-      })
-    ]
-  },
 
   resolve: {
     // alias: {

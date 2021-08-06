@@ -8,6 +8,7 @@
     "dev": "webpack serve --progress --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "dll": "webpack --config webpack.dll.js",
+    "analyzer": "cross-env NODE_ENV=production npm_config_report=true npm run build",
     "lint": "eslint --ext .js --ext .jsx --ext .vue src/",
     "lint-fix": "eslint --fix --ext .js --ext .jsx --ext .vue src/"
   },
@@ -24,6 +25,7 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "copy-webpack-plugin": "^9.0.1",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
     "css-minimizer-webpack-plugin": "^3.0.2",
     "eslint": "^7.32.0",
@@ -42,6 +44,7 @@
     "style-loader": "^3.2.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.47.1",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0",
