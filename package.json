@@ -52,7 +52,11 @@
   },
   "dependencies": {
     "dayjs": "^1.10.6",
-    "jquery": "^3.6.0"
+    "jquery": "^3.6.0",
+    "layui": "^2.6.8",
+    "lodash": "^4.17.21",
+    "swiper": "5.4.5",
+    "wangeditor": "^4.7.6"
   },
   "browserslist": [
     "defaults",

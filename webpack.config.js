@@ -4,7 +4,7 @@ const path = require('path');
 const os = require('os');
 const HappyPack = require('happypack');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
-const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
@@ -18,6 +18,25 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const htmlPluginArray = [];
+
+const htmlWebpackPluginConfig = function(name) {
+  let config = {
+    filename: `./v/${name}/index.html`,
+    template: `./src/pages/${name}/index.html`,
+    inject: true,
+    hash: true,
+    chunks: [name],
+    minify: minifyConfig,
+    favicon: path.resolve(__dirname, 'src/common/favicon/favicon.ico')
+  };
+
+  if (name === 'index') {
+    config.filename = './index.html';
+  }
+
+  return config;
+
+};
 
 // html-webpack-plugin插件minify配置
 const minifyConfig = {
@@ -41,21 +60,7 @@ const getEntry = () => {
       entry[name] = item;
 
       // 添加htmlWebpackPlugin插件
-      if (name === 'index') {
-        htmlPluginArray.push(new HtmlWebpackPlugin({
-          filename: './index.html',
-          template: `./src/pages/${name}/index.html`,
-          chunks: [name],
-          minify: minifyConfig
-        }));
-      } else {
-        htmlPluginArray.push(new HtmlWebpackPlugin({
-          filename: `./pages/${name}/index.html`,
-          template: `./src/pages/${name}/index.html`,
-          chunks: [name],
-          minify: minifyConfig
-        }));
-      }
+      htmlPluginArray.push(new HtmlWebpackPlugin(htmlWebpackPluginConfig(name)));
 
     });
 
@@ -120,7 +125,7 @@ module.exports = {
 
       // 图片
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.(jpg|png|gif|ico)$/,
         use: [
           {
             loader: 'url-loader',

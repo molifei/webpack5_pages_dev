@@ -3,17 +3,32 @@ __webpack_public_path__ = '/';
 import './index.less';
 import './other.less';
 import '../../common/css/base.less';
+
 import $ from 'jquery';
-import dayjs from 'dayjs';
 
-console.log('index');
+document.title = 'INDEX';
 
-const test = () => {
-  console.log(12345);
-};
+layui.use(['layer', 'form'], function() {
+  var layer = layui.layer,
+    form = layui.form;
 
-test();
+  // layer.msg('Hello World');
+});
 
-$('#text').html(dayjs().format('YYYY-MM-DD hh:mm:ss'));
+layui.use('carousel', function() {
+  var carousel = layui.carousel;
+  // 建造实例
+  carousel.render({
+    elem: '#test1',
+    width: '100%',
+    height: '500px',
+    arrow: 'always', // 始终显示箭头
+  });
+});
 
-console.log(dayjs());
+layui.use('element', function() {
+  var element = layui.element;
+
+  //…
+});
+

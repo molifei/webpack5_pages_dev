@@ -2,12 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title></title>
+  <link rel="shortcut icon" href="/src/common/favicon/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+  <script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
 </head>
 <body>
-home
-<h1>HOME</h1>
-<a href="/index.html">Index</a>
-<a href="/pages/about/index.html">about</a>
+<!-- 导航 -->
+<ul class="layui-nav">
+  <li class="layui-nav-item">
+    <a href="/">INDEX</a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/home">首页<span class="layui-badge-dot"></span></a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/about">关于</a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/concat">联系</a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/edit">编辑</a>
+  </li>
+</ul>
 </body>
+<script>
+const res = () => {
+  console.log(123);
+};
+</script>
 </html>

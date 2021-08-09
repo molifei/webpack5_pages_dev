@@ -2,26 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
-  <style>
-    .line {
-      color: red;
-    }
-
-    .shop {
-      background-color: #4de22b;
-    }
-  </style>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title></title>
+  <link rel="shortcut icon" href="/src/common/favicon/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+  <script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
 </head>
 <body>
-<h2>Index</h2>
-index
-<!-- 123 -->
-<a class="web-font" href="./pages/about">about</a>
-<a class="web-font" href="./pages/home">home</a>
-<img src="../../common/img/1.jpg" height="100" width="100" alt="" />
-<video src="../../common/media/video.mp4" controls width="400"></video>
-<p id="text"></p>
+<!-- 导航 -->
+<ul class="layui-nav">
+  <li class="layui-nav-item">
+    <a href="/">INDEX</a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/home">首页<span class="layui-badge-dot"></span></a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/about">关于</a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/concat">联系</a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/v/edit">编辑</a>
+  </li>
+</ul>
+
+<!-- 轮播 -->
+<div class="layui-carousel" id="test1">
+  <div carousel-item>
+    <img src="/src/common/img/s1.jpg" alt="">
+    <img src="/src/common/img/s2.jpg" alt="">
+    <img src="/src/common/img/s3.jpg" alt="">
+    <img src="/src/common/img/s4.jpg" alt="">
+    <img src="/src/common/img/s5.jpg" alt="">
+    <img src="/src/common/img/s6.jpg" alt="">
+  </div>
+</div>
+
+<!-- 模块 -->
+<div class="layui-row mt20">
+  <div class="layui-col-md6">
+    <div class="layui-panel">
+      <div style="padding: 30px;">一个面板</div>
+    </div>
+  </div>
+  <div class="layui-col-md6">
+    <div class="layui-panel">
+      <div style="padding: 30px;">一个面板</div>
+    </div>
+  </div>
+
+  <div class="layui-col-md6">
+    <div class="layui-panel">
+      <div style="padding: 30px;">一个面板</div>
+    </div>
+  </div>
+
+  <div class="layui-col-md6">
+    <div class="layui-panel">
+      <div style="padding: 30px;">一个面板</div>
+    </div>
+  </div>
+
+  <div class="layui-col-md6">
+    <div class="layui-panel">
+      <div style="padding: 30px;">一个面板</div>
+    </div>
+  </div>
+
+  <div class="layui-col-md6">
+    <div class="layui-panel">
+      <div style="padding: 30px;">一个面板</div>
+    </div>
+  </div>
+
+  <div class="layui-col-md6">
+    <div class="layui-card">
+      <div class="layui-card-header">卡片面板</div>
+      <div class="layui-card-body">
+        卡片式面板面板通常用于非白色背景色的主体内<br>
+        从而映衬出边框投影
+      </div>
+    </div>
+  </div>
+
+  <div class="layui-col-md6">
+    <div class="layui-card">
+      <div class="layui-card-header">卡片面板</div>
+      <div class="layui-card-body">
+        卡片式面板面板通常用于非白色背景色的主体内<br>
+        从而映衬出边框投影
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 折叠 -->
+<div class="layui-collapse mt20" lay-accordion>
+  <div class="layui-colla-item">
+    <h2 class="layui-colla-title">杜甫</h2>
+    <div class="layui-colla-content layui-show">内容区域</div>
+  </div>
+  <div class="layui-colla-item">
+    <h2 class="layui-colla-title">李清照</h2>
+    <div class="layui-colla-content">内容区域</div>
+  </div>
+  <div class="layui-colla-item">
+    <h2 class="layui-colla-title">鲁迅</h2>
+    <div class="layui-colla-content">内容区域</div>
+  </div>
+</div>
+
+<!-- 底部 -->
+<footer>底部</footer>
+
 </body>
 <script>
 const res = () => {

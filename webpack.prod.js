@@ -7,8 +7,10 @@ const webpack = require('webpack');
 // 压缩css
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
-// 打包内容多少
+// 打包内容分析
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 
 module.exports = merge(base, {
   mode: 'production',
